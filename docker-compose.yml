@@ -1,0 +1,27 @@
+services:
+######################## PostgreSQL #########################
+  PostgreSQLService:
+    image: postgres:14.1-bullseye
+    container_name: PostgreSQLContainer
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=jbpm
+      - POSTGRES_USER=jbpm
+      - POSTGRES_DB=jbpm
+######################## jBPM Workbench Showcase #########################
+  jBPMServerFullService:
+    image: jboss/jbpm-server-full:7.61.0.Final
+    container_name: jBPMServerFullContainer
+    restart: always
+    ports: 
+      - "8080:8080"
+      - "8001:8001"
+    environment:
+      - JBPM_DB_DRIVER=postgres
+      - JBPM_DB_HOST=PostgreSQLContainer
+    depends_on:
+      - PostgreSQLService
+
+        
